@@ -3,6 +3,7 @@ package com.first.hibernateCRUD;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -76,6 +77,28 @@ public class HibernateUtil {
 		e.setFirstName("ABC");
 		session.getTransaction().commit();
 		System.out.println("Employee with ID = " + id + " has been updated.");
+	}
+
+	public static Employee findEmployeeByID(Integer id) {
+		session = getSessionFactory().openSession();
+		session.beginTransaction();
+
+		Employee e = session.load(Employee.class, id);
+		return e;
+	}
+
+	public static void deleteAllRecords() {
+
+		session = getSessionFactory().openSession();
+		session.beginTransaction();
+
+		Query q = session.createQuery("DELETE FROM Employee");
+		q.executeUpdate();
+
+		session.getTransaction().commit();
+
+		System.out.println("All employee records are deleted.");
+
 	}
 
 }
